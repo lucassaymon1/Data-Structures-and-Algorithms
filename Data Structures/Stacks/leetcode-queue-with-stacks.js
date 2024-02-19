@@ -1,40 +1,52 @@
 class MyQueue {
 	constructor() {
-		this.data = []
+		this.first = []
+		this.last = []
 	}
-	push(x) {
-		this.data.push(x)
+	enqueue(x) {
+		const length = this.first.length
+		for (let i = 0; i < length; i++) {
+			this.last.push(this.first.pop())
+		}
+		this.last.push(x)
 		return null
 	}
 
-	pop() {
-		const peek = this.data[0]
-		for (let i = 0; i < this.data.length - 1; i++) {
-			this.data[i] = this.data[i + 1]
+	dequeue() {
+		const length = this.last.length
+		for (let i = 0; i < length; i++) {
+			this.first.push(this.last.pop())
 		}
-		this.data.pop()
-		return peek
+		return this.first.pop()
 	}
 
 	peek() {
-		return this.data[0]
+		if (this.first.length > 0) {
+			return this.first[this.first.length - 1]
+		} else {
+			return this.last[0]
+		}
 	}
 
 	empty() {
-		const isEmpty = this.peek()
-		if (isEmpty) return true
-		else return false
+		if (this.first.length > 0 || this.last.length > 0) {
+			return false
+		} else {
+			return true
+		}
 	}
 }
 
 const myQueue = new MyQueue()
-console.log(myQueue.push(1))
-console.log(myQueue.push(2))
-console.log(myQueue.push(3))
-console.log(myQueue.push(4))
-console.log(myQueue.pop())
-console.log(myQueue.push(5))
-console.log(myQueue.pop())
-console.log(myQueue.pop())
-console.log(myQueue.pop())
-console.log(myQueue.pop())
+
+console.log(myQueue.peek())
+myQueue.enqueue('Joy')
+myQueue.enqueue('Matt')
+myQueue.enqueue('Pavel')
+console.log(myQueue.peek())
+console.log('========')
+console.log(myQueue.dequeue())
+console.log(myQueue.dequeue())
+console.log(myQueue.dequeue())
+console.log('========')
+console.log(myQueue.peek())
